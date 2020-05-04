@@ -106,6 +106,7 @@ class Buy extends React.Component {
               <span>{this.numberAfterDot(this.state.currentPrice)} $</span>
             </PriceText>
             <InputBlock>
+              <span>1</span>
               <button onClick={this.handlerMinus}>-</button>
               <InputLenght
                 type="number"
@@ -115,7 +116,8 @@ class Buy extends React.Component {
                 value={this.state.pieces}
                 placeholder="1"
               />
-              <button onClick={this.handlerPlus}>+</button>
+              <button onClick={this.handlerPlus}>+</button>{" "}
+              <span>{this.state.amount}</span>
             </InputBlock>
             <SellFor>
               Sell for {Math.trunc(this.state.pieces * this.state.currentPrice)}
