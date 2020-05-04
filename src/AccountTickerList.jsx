@@ -1,11 +1,6 @@
 import React from "react";
-import BuyStock from "./BuyStock.jsx";
-import Footer from "./Footer";
-import Decimal from "./Decimal.jsx";
-import Navbar from "./Navbar";
 import Progres from "./Progres";
 import ReactPaginate from "react-paginate";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -42,19 +37,19 @@ class AccountTickerList extends React.Component {
               this.state.pageNum * this.state.items
             )
             .map((each) => (
-                <Link
-                    key={each.id}
-                    to={{
-                      pathname: "/Sell",
-                      state: {
-                        stockId: each.id,
-                        stockTicker: each.ticker,
-                        stockName:each.name,
-                        stockAmount: each.amount,
-                        oldPrice: +each.purchasePrice / +each.amount,
-                      },
-                    }}
-                >
+              <Link
+                key={each.id}
+                to={{
+                  pathname: "/Sell",
+                  state: {
+                    stockId: each.id,
+                    stockTicker: each.ticker,
+                    stockName: each.name,
+                    stockAmount: each.amount,
+                    oldPrice: +each.purchasePrice / +each.amount,
+                  },
+                }}
+              >
                 <Ticker key={each.id}>
                   <div style={tdSymbol}> {each.ticker} </div>
                   <div style={tdName}> {each.name} </div>
@@ -70,7 +65,7 @@ class AccountTickerList extends React.Component {
                     />
                   </div>
                 </Ticker>
-                </Link>
+              </Link>
             ))}
         </ScroolDiv>
         <ReactPaginate
@@ -138,9 +133,6 @@ const tdPurchasePrice = {
   fontSize: "22px",
   width: "200px",
   textAlign: "center",
-};
-const priceDecimal = {
-  fontSize: "20px",
 };
 
 export default AccountTickerList;

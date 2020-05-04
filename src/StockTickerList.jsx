@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 import Decimal from "./Decimal.jsx";
 import { NavLink } from "react-router-dom";
@@ -26,24 +25,17 @@ class StokeTickerList extends React.Component {
   }
 
   takeOurFetchNet = () => {
-    fetch("https://financialmodelingprep.com/api/v3/company/stock/list", {
-      method: "GET",
-    })
-      .then((res) => res.text())
-      .then((data) => {
-        // Пробуем распарсить полученные данные, если не получается - обрезаем
-        try {
-          return JSON.parse(data);
-        } catch (err) {
-          const lastRecStart = data.lastIndexOf("{");
-          const trimmedData = data.substr(0, lastRecStart - 2) + "]}";
-          return JSON.parse(trimmedData);
-        }
-      })
+    fetch(
+      "https://fmpcloud.io/api/v3/stock/list?apikey=e8b028031b6229f8c46c81d34527b5fd",
+      {
+        method: "GET",
+      }
+    )
+      .then((res) => res.json())
       .then((res) => {
         this.setState({
-          stockNet: res.symbolsList,
-          stockArrLength: res.symbolsList.length,
+          stockNet: res,
+          stockArrLength: res.length,
         });
       })
       .catch((err) => {

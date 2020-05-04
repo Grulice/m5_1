@@ -1,9 +1,9 @@
 import React from "react";
-import styled from 'styled-components'
-import { NavLink } from 'react-router-dom';
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 import bank from "./img/Bank-icon.png";
 
-const activeClassName = 'nav-item-active'
+const activeClassName = "nav-item-active";
 
 const StyledLink = styled(NavLink).attrs({ activeClassName })`
   &.${activeClassName} {
@@ -13,14 +13,14 @@ const StyledLink = styled(NavLink).attrs({ activeClassName })`
     width: 14.75vw;
     position: absolute;
   }
-  &:hover{
+  &:hover {
     color: #ffdc40;
     border-bottom: 2px solid black;
     text-decoration: none;
     width: 14.75vw;
     position: absolute;
   }
-  &{
+  & {
     color: black;
     font-family: "Roboto";
     font-size: 20px;
@@ -30,29 +30,32 @@ const StyledLink = styled(NavLink).attrs({ activeClassName })`
     margin-right: -3.81vw;
     vertical-align: middle;
     position: absolute;
-  }`;
-const Navigation = styled.a` 
-    font-family: "Roboto";
-    font-size: 20px;
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-`
+  }
+`;
+
+//                        vvv тут был а :)
+const Navigation = styled.div`
+  font-family: "Roboto";
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+`;
 const mainHeader = {
-  'textAlign': "center",
-  'display': "flex",
-  'paddingTop': "2.85vh",
-  'justifyContent': "space-between",
-  'height': '17.7vh',
-}
+  textAlign: "center",
+  display: "flex",
+  paddingTop: "2.85vh",
+  justifyContent: "space-between",
+  height: "17.7vh",
+};
 const image = {
-  'marginTop': "3.57vh",
-  'marginRight': "6.07vw",
-}
+  marginTop: "3.57vh",
+  marginRight: "6.07vw",
+};
 const NavigationLink = styled.div`
-    padding-bottom: 2.14vh;
-    margin-left: 4.34vw;
-    margin-right: 11.11vw;
+  padding-bottom: 2.14vh;
+  margin-left: 4.34vw;
+  margin-right: 11.11vw;
 `;
 class Navbar extends React.Component {
   render = () => {
@@ -64,14 +67,13 @@ class Navbar extends React.Component {
               <StyledLink to={"/Account"}> Account </StyledLink>
             </NavigationLink>
             <NavigationLink>
-              <StyledLink to={"/Stock"}> Stock </StyledLink> </NavigationLink>
+              <StyledLink to={"/Stock"}> Stock </StyledLink>{" "}
+            </NavigationLink>
           </Navigation>
           <div>
             <img style={image} alt="bank" src={bank} />
           </div>
-
         </header>
-
       </div>
     );
   };

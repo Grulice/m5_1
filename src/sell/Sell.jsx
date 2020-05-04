@@ -1,28 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  getStockPriceFor,
-  changeUserStockDelete,
-  changeUserStockPutExport,
-  updateBalance,
-  getUserBalance,
-} from "./sellFetcher";
+import { getStockPriceFor, getUserBalance } from "./sellFetcher";
 
 import {
   MainSell,
   CentralBlock,
-  TestBlock,
+  SellWrapper,
   HeaderSell,
   PriceText,
   SellFor,
   InputBlock,
   InputLenght,
 } from "./styleSell";
-import styled from "styled-components";
 import arrow from "../img/arrow.svg";
-
-// Стили Компонента Chart начало ****
-// Стили Компонента Chart Конец ****
 
 class Buy extends React.Component {
   state = {
@@ -80,28 +70,14 @@ class Buy extends React.Component {
   };
 
   sendStocksInfo = () => {
-    if (this.state.pieces <= 0 || this.state.pieces > this.state.amount) {
-      alert("Неверное количество акций");
-      return;
-    }
-    if (this.state.pieces === this.state.amount) {
-      changeUserStockDelete(this.state.id);
-      const element =
-        +this.state.currentBalance +
-        this.state.pieces * this.state.currentPrice;
-      updateBalance(element).then(() => this.props.refreshBalance());
-    } else {
-      const obj = {
-        id: this.state.id,
-        amount: this.state.amount - this.state.pieces,
-        price: (this.state.amount - this.state.pieces) * this.state.oldPrice,
-      };
-      const element =
-        +this.state.currentBalance +
-        this.state.pieces * this.state.currentPrice;
-      changeUserStockPutExport(obj);
-      updateBalance(element).then(() => this.props.refreshBalance());
-    }
+    this.props.sendStocksInfo(
+      this.state.id,
+      this.state.pieces,
+      this.state.amount,
+      this.state.currentBalance,
+      this.state.currentPrice,
+      this.state.oldPrice
+    );
   };
 
   // Функция записывающая текущее значение value input  в state pieces
@@ -115,7 +91,7 @@ class Buy extends React.Component {
   };
   render() {
     return (
-      <TestBlock>
+      <SellWrapper>
         <MainSell>
           <HeaderSell>
             <Link to={"/Account"}>
@@ -171,7 +147,7 @@ class Buy extends React.Component {
             </Link>
           </CentralBlock>
         </MainSell>
-      </TestBlock>
+      </SellWrapper>
     );
   }
 }

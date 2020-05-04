@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Progres from "./Progres";
 import styled from "styled-components";
 
@@ -26,7 +25,7 @@ class Balance extends React.Component {
         const arrAmount = date.map((info) => info.amount);
         const arrPurchasePrice = date.map((info) => info.purchasePrice);
         const balance =
-          arrPurchasePrice.length == 0
+          arrPurchasePrice.length === 0
             ? 0
             : arrPurchasePrice.reduce((a, b) => {
                 return a + b;

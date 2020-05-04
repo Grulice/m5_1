@@ -31,7 +31,7 @@ export const CentralBlock = styled.div`
     font-size: 15px;
   }
 `;
-export const TestBlock = styled.div`
+export const SellWrapper = styled.div`
   width: 100%;
 `;
 export const HeaderSell = styled.div`
