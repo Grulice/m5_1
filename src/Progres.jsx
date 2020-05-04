@@ -12,9 +12,9 @@ class Progres extends React.Component {
         changesPercentage: ''
     }
     componentDidMount() {
-        this.takeTickerPrice()
+        this.takeTickerPrice();
     }
-    takeTickerPrice = () => {
+     takeTickerPrice = () => {
         const { ticker } = this.props;
         fetch(`https://financialmodelingprep.com/api/v3/company/profile/${ticker}`)
             .then((response) => {
@@ -36,7 +36,6 @@ class Progres extends React.Component {
                     }
                     const oldBalance = this.props.balance;
                     const totalBalance = (+arr.reduce((a, b) => { return a + b }) - oldBalance).toFixed(2);
-                    console.log(totalBalance)
                     const changesBalance = ((totalBalance * 100) / this.props.balance).toFixed(2);
                     this.setState({
                         oldBalance: oldBalance,
@@ -45,9 +44,9 @@ class Progres extends React.Component {
                     })
                 }
             })
-    }
+    };
     render() {
-        const { oldBalance, changes, changesPercentage } = this.state
+        const { oldBalance, changes, changesPercentage } = this.state;
         const balance = oldBalance == null ? false : true;
         const status = changes > 0 ? priceUp : priceDown;
         return (

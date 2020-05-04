@@ -42,18 +42,19 @@ class AccountTickerList extends React.Component {
               this.state.pageNum * this.state.items
             )
             .map((each) => (
-              <Link
-                key={each.id}
-                to={{
-                  pathname: "/Sell",
-                  state: {
-                    stockId: each.id,
-                    stockTicker: each.ticker,
-                    stockName: each.name,
-                    stockAmount: each.amount,
-                  },
-                }}
-              >
+                <Link
+                    key={each.id}
+                    to={{
+                      pathname: "/Sell",
+                      state: {
+                        stockId: each.id,
+                        stockTicker: each.ticker,
+                        stockName:each.name,
+                        stockAmount: each.amount,
+                        oldPrice: +each.purchasePrice / +each.amount,
+                      },
+                    }}
+                >
                 <Ticker key={each.id}>
                   <div style={tdSymbol}> {each.ticker} </div>
                   <div style={tdName}> {each.name} </div>
@@ -69,7 +70,7 @@ class AccountTickerList extends React.Component {
                     />
                   </div>
                 </Ticker>
-              </Link>
+                </Link>
             ))}
         </ScroolDiv>
         <ReactPaginate
