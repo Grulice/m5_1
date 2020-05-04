@@ -4,6 +4,7 @@ import Footer from './Footer';
 import Account from './Account.jsx';
 import Navbar from "./Navbar";
 import Stock from './Stock';
+import Sell from "./sell/Sell";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
@@ -38,6 +39,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/Account" render={() => (<Account balance={balance} />)} />
           <Route path="/Stock" component={Stock} />
+          <Route path="/Sell" component={Sell} />
           <Route path="/BuyStock" render={(routeProps) => (<BuyStock {...routeProps} currentBalance={balance} refreshBalance={this.refreshBalance} />)} />
         </Switch>
         <Footer currentBalance={balance} />

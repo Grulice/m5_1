@@ -5,7 +5,7 @@ import Decimal from "./Decimal.jsx";
 import Navbar from "./Navbar";
 import Progres from "./Progres";
 import ReactPaginate from "react-paginate";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route,Link } from "react-router-dom";
 import styled from "styled-components";
 
 class AccountTickerList extends React.Component {
@@ -41,6 +41,18 @@ class AccountTickerList extends React.Component {
               this.state.pageNum * this.state.items
             )
             .map((each) => (
+                <Link
+                    key={each.id}
+                    to={{
+                      pathname: "/Sell",
+                      state: {
+                        stockId: each.id,
+                        stockTicker: each.ticker,
+                        stockName:each.name,
+                        stockAmount: each.amount,
+                      },
+                    }}
+                >
                 <Ticker key={each.id}>
                   <div style={tdSymbol}> {each.ticker} </div>
                   <div style={tdName}> {each.name} </div>
@@ -56,6 +68,7 @@ class AccountTickerList extends React.Component {
                     />
                   </div>
                 </Ticker>
+                </Link>
             ))}
         </ScroolDiv>
         <ReactPaginate
