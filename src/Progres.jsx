@@ -4,6 +4,19 @@ import greenArrow from "../src/img/greenArrow.png";
 import redArrow from "../src/img/redArrow.png";
 import styled from "styled-components";
 
+const chunkArray = (myArray, chunk_size) => {
+  let index = 0;
+  let arrayLength = myArray.length;
+  let tempArray = [];
+
+  for (index = 0; index < arrayLength; index += chunk_size) {
+    const myChunk = myArray.slice(index, index + chunk_size);
+    tempArray.push(myChunk);
+  }
+
+  return tempArray;
+};
+
 class Progres extends React.Component {
   state = {
     oldBalance: null,
@@ -13,14 +26,57 @@ class Progres extends React.Component {
   componentDidMount() {
     this.takeTickerPrice();
   }
+
   takeTickerPrice = () => {
     const { ticker } = this.props;
-    fetch(`https://financialmodelingprep.com/api/v3/company/profile/${ticker}`)
-      .then((response) => {
-        return response.json();
+    const codes = ticker.split(",");
+    if (codes.length === 0) return Promise.resolve([]);
+
+    // only get unique codes
+    const uniqueCodes = Array.from(new Set(codes));
+
+    const chunkedCodes = chunkArray(uniqueCodes, 3);
+    const fetches = [];
+    for (const chunk of chunkedCodes) {
+      let codesString = chunk.join(",");
+      fetches.push(
+        fetch(
+          `https://financialmodelingprep.com/api/v3/company/profile/${codesString}`
+        )
+      );
+    }
+
+    Promise.all(fetches)
+      .then((fetchResults) => {
+        const results = [];
+        fetchResults.forEach((res) => {
+          results.push(res.json());
+        });
+        return Promise.all(results);
+      })
+      .then((res) => {
+        if (res.length === 1) return res[0];
+
+        const reduced = res.reduce(
+          (accobj, row) => {
+            if (!row.hasOwnProperty("companyProfiles")) {
+              return {
+                companyProfiles: accobj.companyProfiles.concat(row),
+              };
+            }
+            return {
+              companyProfiles: accobj.companyProfiles.concat(
+                row.companyProfiles
+              ),
+            };
+          },
+          { companyProfiles: [] }
+        );
+        console.log(reduced);
+        return reduced;
       })
       .then((data) => {
-        if (!data.companyProfiles) {
+        if (!data.hasOwnProperty("companyProfiles")) {
           const value = (data.profile.price - this.props.price).toFixed(2);
           const changesValue = (
             100 -
@@ -31,6 +87,7 @@ class Progres extends React.Component {
             changesPercentage: changesValue,
           });
         } else {
+          console.log(data);
           const newDat = data.companyProfiles;
           const arr = [];
           for (let i = 0; i < newDat.length; i++) {

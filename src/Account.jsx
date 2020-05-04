@@ -7,7 +7,7 @@ class Account extends React.Component {
     const { balance } = this.props;
     return (
       <div>
-        <Balance balance={balance} />
+        {this.props.readyForRender ? <Balance balance={balance} /> : ""}
 
         {this.props.readyForRender ? <AccountTickerList /> : ""}
       </div>

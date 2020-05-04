@@ -21,7 +21,7 @@ class App extends React.Component {
     this.callFetch();
   }
   callFetch = () => {
-    fetch("https://5e8da89e22d8cd0016a798db.mockapi.io/users/1")
+    return fetch("https://5e8da89e22d8cd0016a798db.mockapi.io/users/1")
       .then((response) => {
         return response.json();
       })
@@ -57,8 +57,9 @@ class App extends React.Component {
       changeUserStockDelete(id);
       const element = +currentBalance + pieces * currentPrice;
       updateBalance(element).then(() => {
-        this.callFetch();
-        this.setState({ accountReadyforRender: true });
+        this.callFetch().then((_) =>
+          this.setState({ accountReadyforRender: true })
+        );
       });
     } else {
       const obj = {
@@ -69,8 +70,9 @@ class App extends React.Component {
       const element = +currentBalance + pieces * currentPrice;
       changeUserStockPutExport(obj);
       updateBalance(element).then(() => {
-        this.callFetch();
-        this.setState({ accountReadyforRender: true });
+        this.callFetch().then((_) =>
+          this.setState({ accountReadyforRender: true })
+        );
       });
     }
   };
