@@ -5,8 +5,9 @@ import Decimal from "./Decimal.jsx";
 import Navbar from "./Navbar";
 import Progres from "./Progres";
 import ReactPaginate from "react-paginate";
-import { BrowserRouter as Router, Switch, Route,Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 class AccountTickerList extends React.Component {
   state = {
