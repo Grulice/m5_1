@@ -73,7 +73,7 @@ class Buy extends React.Component {
             <TestBlock>
                 <MainSell>
                     <HeaderSell>
-                        <Link to={"/Stock"}>
+                        <Link to={"/Account"}>
                             <img src={arrow} alt="arrow" />
                             Back
                         </Link>
