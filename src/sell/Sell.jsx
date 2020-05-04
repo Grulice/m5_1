@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {getStockPriceFor,changeUserStockDelete,changeUserStockPutExport,updateBalance,getUserBalance} from "./sellFetcher";
 
 import {
     MainSell,
@@ -20,22 +21,29 @@ import arrow from "../img/arrow.svg";
 class Buy extends React.Component {
     state = {
         name: null,
-        price: null,
         symbol: null,
         amount:null,
+        currentPrice:null,
         id:null,
+        currentBalance:null,
+        oldPrice:null,
         pieces: "",
 
     };
     componentDidMount() {
         window.scrollTo(0, 0);
-        const { stockTicker, stockName, stockAmount,stockId } = this.props.location.state; //Беру state из тега Link в компоненте Stock
+        const { stockTicker, stockName, stockAmount,stockId,oldPrice } = this.props.location.state; //Беру state из тега Link в компоненте Stock
         this.setState({
             name: stockName,
             symbol: stockTicker,
             amount:stockAmount,
             id:stockId,
+            oldPrice:oldPrice
         });
+        getStockPriceFor(stockTicker).then(
+            res => this.setState({currentPrice:res.profile.price})
+        );
+        getUserBalance().then(res => this.setState({currentBalance:res.currentBalance}))
     }
     // Функция выделяющая числа после точки для ее уменьшения в стилях в дальнейшем
     numberAfterDot = (value) => {
@@ -48,16 +56,32 @@ class Buy extends React.Component {
     };
     // Функция увеличения значения в input
     handlerPlus = () => {
-        this.setState({ pieces: +this.state.pieces + 1 });
+        if(this.state.pieces >= this.state.amount)  this.setState({ pieces:this.state.amount});
+        else  this.setState({ pieces: +this.state.pieces + 1 });
     };
     // Функция уменьшения значения в input
     handlerMinus = () => {
         if (this.state.pieces <= 0) this.setState({ pieces: 0 });
         else this.setState({ pieces: +this.state.pieces - 1 });
     };
-    //Функция отправки полученных данных на API команды начало ****
 
-    //Функция отправки полученных данных на API команды конец ****
+    sendStocksInfo = () =>{
+        if(this.state.pieces===this.state.amount){
+            changeUserStockDelete(this.state.id);
+            const element = +this.state.currentBalance + (this.state.pieces * this.state.currentPrice);
+            updateBalance(element);
+        }
+        else{
+            const obj = {
+                id:this.state.id,
+                amount:this.state.amount -  this.state.pieces,
+                price: (this.state.amount -  this.state.pieces) * this.state.oldPrice
+            };
+            const element = +this.state.currentBalance + (this.state.pieces * this.state.currentPrice);
+            updateBalance(element);
+            changeUserStockPutExport(obj);
+        }
+    };
 
     // Функция записывающая текущее значение value input  в state pieces
     changeValue = (e) => {
@@ -81,8 +105,8 @@ class Buy extends React.Component {
                     </HeaderSell>
                     <CentralBlock>
                         <PriceText>
-                            {/*{Math.trunc(this.state.price)}*/}
-                            {/*<span>{this.numberAfterDot(this.state.price)} $</span>*/}
+                            {Math.trunc(this.state.currentPrice)}
+                            <span>{this.numberAfterDot(this.state.currentPrice)} $</span>
                         </PriceText>
                         <InputBlock>
                             <button onClick={this.handlerMinus}>-</button>
@@ -96,17 +120,13 @@ class Buy extends React.Component {
                             <button onClick={this.handlerPlus}>+</button>
                         </InputBlock>
                         <SellFor>
-                            Sell for {Math.trunc(this.state.pieces * this.state.price)}
+                            Sell for {Math.trunc(this.state.pieces * this.state.currentPrice)}
                             <span>
-                {this.numberAfterDot(this.state.pieces * this.state.price)} $
+                {this.numberAfterDot(this.state.pieces * this.state.currentPrice)} $
               </span>
                         </SellFor>
-                        <Link
-                            to={{
-                                pathname:'/Sell'
-                            }}
-                        >
-                            <p>Sell</p>
+                        <Link to={'/Account'}>
+                            <p onClick={this.sendStocksInfo}>Sell</p>
                         </Link>
                     </CentralBlock>
                 </MainSell>

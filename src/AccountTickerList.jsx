@@ -51,6 +51,7 @@ class AccountTickerList extends React.Component {
                         stockTicker: each.ticker,
                         stockName:each.name,
                         stockAmount: each.amount,
+                        oldPrice: +each.purchasePrice / +each.amount,
                       },
                     }}
                 >

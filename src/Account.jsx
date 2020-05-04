@@ -11,8 +11,8 @@ import styled from 'styled-components';
 
 class Account extends React.Component {
 
-  render() {
-    const { balance } = this.props
+    render() {
+        const { balance } = this.props;
     return (
       <div>
         <Balance balance={balance} />
