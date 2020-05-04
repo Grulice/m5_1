@@ -33,7 +33,7 @@ const StyledLink = styled(NavLink).attrs({ activeClassName })`
   }
 `;
 
-//                        vvv тут был а :)
+//                        vvv тут был а
 const Navigation = styled.div`
   font-family: "Roboto";
   font-size: 20px;

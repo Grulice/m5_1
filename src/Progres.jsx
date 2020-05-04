@@ -28,6 +28,9 @@ class Progres extends React.Component {
   }
 
   takeTickerPrice = () => {
+    //Так как Financial Api не принимает более 3 тиккеров, мы добавили функционал разделения 
+    //исходящих запросов на группы по 3 тиккера. 
+
     const { ticker } = this.props;
     const codes = ticker.split(",");
     if (codes.length === 0) return Promise.resolve([]);
